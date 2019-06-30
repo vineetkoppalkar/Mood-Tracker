@@ -7,6 +7,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import { causeObjects } from './CauseConstants';
+import CauseIconList from './CauseIconList'
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -25,13 +28,20 @@ const renderMoodEntries = (moodEntries) => {
   return (moodEntries.map((moodEntry) => {
     let date = new Date(moodEntry.timestamp);
     let dateTime = `${date.toDateString()} at ${date.toLocaleTimeString('en-US')}`;
+
+    moodEntry.causeArray.sort();
+    let selectedCauseObjects = [];
+    moodEntry.causeArray.forEach(causeId => 
+      selectedCauseObjects.push(causeObjects[causeId])
+    );
+
     return (
       <TableRow key={moodEntry.id}>
         <TableCell component="th" scope="row">
           {moodEntry.moodName}
         </TableCell>
         <TableCell>{dateTime}</TableCell>
-        <TableCell>{moodEntry.causeArray}</TableCell>
+        <TableCell><CauseIconList selectedCauses={selectedCauseObjects} /></TableCell>
       </TableRow>
     )
   }));
@@ -47,7 +57,7 @@ export default function SimpleTable({moodEntries}) {
           <TableRow>
             <TableCell>Mood Name</TableCell>
             <TableCell>Date</TableCell>
-            <TableCell>Cause</TableCell>
+            <TableCell align="center">Cause</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

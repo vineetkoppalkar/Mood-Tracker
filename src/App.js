@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Row from 'react-bootstrap/Row';
@@ -49,12 +50,11 @@ class App extends React.Component {
   }
 
   moodEntryHandler = (selectedMood, causeArray, note) => {
-    let selectedCauseNames = [];
-
+    let selectedCauseIds = [];
     causeArray.forEach((cause) => {
-      console.log("moodEntryHandler: " + cause.name);
-      selectedCauseNames.push(cause.name);
+      selectedCauseIds.push(cause.id);
     });
+
     const customNote = (note != null && note.length > 0) ? note : null;
 
     const moodEntry = {
@@ -62,7 +62,7 @@ class App extends React.Component {
       userName: "Vineet",
       timestamp: Date(),
       note: customNote,
-      causeArray: selectedCauseNames
+      causeArray: selectedCauseIds
     }
 
     firebase.firestore().collection("moodEntries").add(moodEntry)
