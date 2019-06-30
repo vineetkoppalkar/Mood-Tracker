@@ -39,10 +39,6 @@ class CauseContainer extends React.Component {
     let index = this.state.causeArray.indexOf(cause);
     index > -1 ? this.state.causeArray.splice(index, 1) : this.state.causeArray.push(cause);
     this.props.setCauseArray(this.state.causeArray);
-
-    // if (this.state.causeArray.length > 0) {
-    //   console.log(this.state.causeArray[this.state.causeArray.length - 1].name);
-    // }
   }
 
   render() {
@@ -144,7 +140,6 @@ class CauseContainer extends React.Component {
               );
             })}
           </List>
-
         </Container>
       </div>
     );

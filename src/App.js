@@ -49,8 +49,6 @@ class App extends React.Component {
   }
 
   moodEntryHandler = (selectedMood, causeArray, note) => {
-    console.log("inside moodEntryHandler");
-    console.log(causeArray);
     let selectedCauseNames = [];
 
     causeArray.forEach((cause) => {

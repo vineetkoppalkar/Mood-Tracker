@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NoteContainer({promptContainer, selectedMood, setNote}) {
+export default function NoteContainer({promptContainer, promptToAddNoteText, selectedMood, setNote}) {
   const classes = useStyles();
   const placeholderText = `I feel ${selectedMood.toLowerCase()} because...`
 
@@ -31,16 +31,19 @@ export default function NoteContainer({promptContainer, selectedMood, setNote}) 
   };
 
   return (
-    <form className={classes.container} noValidate autoComplete="off">
-      <TextField
-        id="note-textarea"
-        label={promptContainer}
-        placeholder={placeholderText}
-        multiline
-        className={classes.textField}
-        onChange={handleChange('name')}
-        margin="normal"
-      />      
-    </form>
+    <div>
+      {promptContainer}
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="note-textarea"
+          label={promptToAddNoteText}
+          placeholder={placeholderText}
+          multiline
+          className={classes.textField}
+          onChange={handleChange('name')}
+          margin="normal"
+        />      
+      </form>
+    </div>
   );
 }

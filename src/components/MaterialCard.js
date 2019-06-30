@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import EmotionIconButtons from './EmotionIconButtons';
 import CauseContainer from '../components/CauseContainer';
 import NoteContainer from '../components/NoteContainer';
+import CauseIconList from '../components/CauseIconList';
 
 class MaterialCard extends React.Component {
   constructor(props) {
@@ -26,19 +27,15 @@ class MaterialCard extends React.Component {
   }
 
   setMoodName = (moodName) => {
-    console.log(moodName);
     this.setState({moodName});
     this.props.handleNext();
   }
 
   setCauseArray = (causeArray) => {
-    console.log(causeArray);
     this.setState({causeArray});
-    // this.props.handleNext();
   }
 
   setNote = (note) => {
-    console.log(note);
     this.setState({note});
   }
 
@@ -56,17 +53,18 @@ class MaterialCard extends React.Component {
 
     let inputContainer;
     let promptContainer;
+    const selectedMoodTextInfo = `Feeling ${this.state.moodName.toLowerCase()}`;
     switch(activeStep) {
       case 0:          
-        promptContainer = <Typography className={classes.instructions}>{promptText}</Typography>
+        promptContainer = <Typography className={classes.instructions + " mb-2"}>{promptText}</Typography>
         inputContainer = <EmotionIconButtons
                             promptContainer = {promptContainer}
                             setMoodName = {this.setMoodName}
                           />;
         break;
-      case 1:
+      case 1:        
         promptContainer = <div>
-          <Typography className={classes.instructions}>{this.state.moodName}</Typography>
+          <Typography className={classes.instructions}>{selectedMoodTextInfo}</Typography>
           <Typography className={classes.instructions}>{promptText}</Typography>
         </div>
         
@@ -76,10 +74,15 @@ class MaterialCard extends React.Component {
                           />;
         break;
       case 2:
+        promptContainer = <div>
+          <Typography className={classes.instructions}>{selectedMoodTextInfo} because of</Typography>
+          <CauseIconList selectedCauses={this.state.causeArray} />
+        </div>
+
         inputContainer = <NoteContainer
-                            promptContainer = {promptText}
+                            promptContainer = {promptContainer}
+                            promptToAddNoteText = {promptText}
                             selectedMood = {this.state.moodName}
-                            selectedCauses = {this.state.causeArray}
                             setNote = {this.setNote}
                           />;
         break;
