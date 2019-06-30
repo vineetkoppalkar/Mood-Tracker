@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
   note: {
     padding: "0 30px",
     color: theme.palette.text.secondary,
-    fontStyle: "italic"
   }
 }));
 

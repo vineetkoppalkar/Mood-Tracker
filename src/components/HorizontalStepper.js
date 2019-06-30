@@ -92,7 +92,7 @@ export default function HorizontalLinearStepper({moodEntryHandler}) {
                 All steps completed - you&apos;re finished
               </Typography>
               <Button onClick={handleReset} className={classes.button}>
-                Reset
+                Create mood entry
               </Button>
             </Paper>
           </div>

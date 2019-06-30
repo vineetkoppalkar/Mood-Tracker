@@ -19,6 +19,13 @@ class App extends React.Component {
       moodEntries: [],
     }
   }
+
+  sortByDatesDesc = (array) => {
+    array.sort((a, b) => {
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    });
+    return array;
+  }
   
   retrieveMoodEntries = () => {
     let entries = [];
@@ -33,6 +40,8 @@ class App extends React.Component {
           data['timestampModified'] = new Date(docRef.timestamp * 1000).toDateString()
           entries.push(data);
         });
+
+        this.sortByDatesDesc(entries);
         this.setState({ moodEntries: entries });
         localStorage.setItem('moodEntries', entries);
       })
@@ -70,6 +79,7 @@ class App extends React.Component {
       let { moodEntries } = this.state;
       moodEntry['id'] = docRef.id;
       moodEntries.push(moodEntry);
+      this.sortByDatesDesc(moodEntries);
       this.setState({moodEntries});
     })
     .catch((error) => {
