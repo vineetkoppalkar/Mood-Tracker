@@ -22,15 +22,19 @@ const renderMoodEntries = (moodEntries) => {
     return null;
   }
 
-  return (moodEntries.map((moodEntry) => (
-    <TableRow key={moodEntry.id}>
-      <TableCell component="th" scope="row">
-        {moodEntry.moodName}
-      </TableCell>
-      <TableCell>{new Date(moodEntry.timestamp).toDateString()}</TableCell>
-      <TableCell>{moodEntry.causeArray}</TableCell>
-    </TableRow>
-  )));
+  return (moodEntries.map((moodEntry) => {
+    let date = new Date(moodEntry.timestamp);
+    let dateTime = `${date.toDateString()} at ${date.toLocaleTimeString('en-US')}`;
+    return (
+      <TableRow key={moodEntry.id}>
+        <TableCell component="th" scope="row">
+          {moodEntry.moodName}
+        </TableCell>
+        <TableCell>{dateTime}</TableCell>
+        <TableCell>{moodEntry.causeArray}</TableCell>
+      </TableRow>
+    )
+  }));
 }
 
 export default function SimpleTable({moodEntries}) {
@@ -47,9 +51,7 @@ export default function SimpleTable({moodEntries}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {renderMoodEntries(moodEntries)}
-          {/* {console.log({moodEntries})} */}
-          
+          {renderMoodEntries(moodEntries)}          
         </TableBody>
       </Table>
     </Paper>
