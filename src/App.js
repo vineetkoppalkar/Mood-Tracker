@@ -78,8 +78,7 @@ class App extends React.Component {
     .then((docRef) => {
       let { moodEntries } = this.state;
       moodEntry['id'] = docRef.id;
-      moodEntries.push(moodEntry);
-      this.sortByDatesDesc(moodEntries);
+      moodEntries.unshift(moodEntry);
       this.setState({moodEntries});
     })
     .catch((error) => {
