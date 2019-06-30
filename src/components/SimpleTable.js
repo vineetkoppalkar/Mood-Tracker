@@ -1,11 +1,16 @@
 import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+
+import ControlledExpansionPanels from './ControlledExpansionPanels';
 
 import { causeObjects } from './CauseConstants';
 import CauseIconList from './CauseIconList'
@@ -35,13 +40,18 @@ const renderMoodEntries = (moodEntries) => {
       selectedCauseObjects.push(causeObjects[causeId])
     );
 
+    let moodIconsComponent = <CauseIconList selectedCauses={selectedCauseObjects} />;
+    
     return (
       <TableRow key={moodEntry.id}>
-        <TableCell component="th" scope="row">
-          {moodEntry.moodName}
+        <TableCell className="p-0">
+          <ControlledExpansionPanels 
+            moodName = {moodEntry.moodName}
+            date = {dateTime}
+            icons = {moodIconsComponent}
+            note = {moodEntry.note}
+          />
         </TableCell>
-        <TableCell>{dateTime}</TableCell>
-        <TableCell><CauseIconList selectedCauses={selectedCauseObjects} /></TableCell>
       </TableRow>
     )
   }));
@@ -55,9 +65,11 @@ export default function SimpleTable({moodEntries}) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Mood Name</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell align="center">Cause</TableCell>
+            <TableCell>
+              <Typography variant="h6" id="tableTitle" className="text-center">
+                Mood Data
+              </Typography>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
