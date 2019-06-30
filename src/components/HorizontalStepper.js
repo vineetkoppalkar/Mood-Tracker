@@ -8,6 +8,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import MaterialCard from './MaterialCard';
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -16,11 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginRight: theme.spacing(1),
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
+  }
 }));
 
 function getSteps() {
@@ -40,7 +38,7 @@ function getStepContent(step) {
   }
 }
 
-export default function HorizontalLinearStepper() {
+export default function HorizontalLinearStepper({moodEntryHandler}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -65,69 +63,52 @@ export default function HorizontalLinearStepper() {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
 
-  function handleSkip() {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-    setSkipped(prevSkipped => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  }
-
   function handleReset() {
     setActiveStep(0);
   }
 
   return (
     <div className={classes.root}>
-      <Paper>
+      <Stepper activeStep={activeStep}>
+        {steps.map((label, index) => {
+          const stepProps = {};
+          const labelProps = {};
 
-        <Stepper activeStep={activeStep}>
-          {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
-  
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        <div>
-          {activeStep === steps.length ? (
-            <div>
+          if (isStepSkipped(index)) {
+            stepProps.completed = false;
+          }
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      <div>
+        {activeStep === steps.length ? (
+          <div>
+            <Paper className="p-3">
               <Typography className={classes.instructions}>
                 All steps completed - you&apos;re finished
               </Typography>
-              <Button onClick={handleReset} className={classes.button + " pb-3"}>
+              <Button onClick={handleReset} className={classes.button}>
                 Reset
               </Button>
-            </div>
-          ) : (
-            <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-              <div className="pb-3">
-                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                  Back
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-      </Paper>
+            </Paper>
+          </div>
+        ) : (
+          <div>
+            <MaterialCard 
+              moodEntryHandler={moodEntryHandler}
+              promptText={getStepContent(activeStep)}
+              activeStep={activeStep}
+              handleBack={handleBack}
+              handleNext={handleNext}
+              steps={steps}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

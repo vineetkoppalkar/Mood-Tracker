@@ -1,5 +1,4 @@
 import React from 'react';
-// import Container from 'react-bootstrap/Container';
 import Container from '@material-ui/core/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -49,13 +48,23 @@ class App extends React.Component {
     }
   }
 
-  clickHandler = (moodName) => {
+  moodEntryHandler = (selectedMood, causeArray, note) => {
+    console.log("inside moodEntryHandler");
+    console.log(causeArray);
+    let selectedCauseNames = [];
+
+    causeArray.forEach((cause) => {
+      console.log("moodEntryHandler: " + cause.name);
+      selectedCauseNames.push(cause.name);
+    });
+    const customNote = (note != null && note.length > 0) ? note : null;
+
     const moodEntry = {
-      moodName: moodName,
+      moodName: selectedMood,
       userName: "Vineet",
       timestamp: Date(),
-      note: null,
-      causeArray: ["Movie"]
+      note: customNote,
+      causeArray: selectedCauseNames
     }
 
     firebase.firestore().collection("moodEntries").add(moodEntry)
@@ -77,13 +86,7 @@ class App extends React.Component {
         <Container>
           <Row>
             <Col lg={{span: 8, offset: 2}}>
-              <HorizontalStepper />
-            </Col>
-          </Row>
-          <br />
-          <Row>
-            <Col>
-              <MaterialCard clickHandler={this.clickHandler} />
+              <HorizontalStepper moodEntryHandler={this.moodEntryHandler} />
             </Col>
           </Row>
           <br />

@@ -1,5 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { indigo } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
 
 import Fab from '@material-ui/core/Fab';
 import SentimentVeryDissatisfied from '@material-ui/icons/SentimentVeryDissatisfiedOutlined';
@@ -13,28 +15,66 @@ const useStyles = makeStyles(theme => ({
   fab: {
     margin: theme.spacing(0.5),
   },
+  
+  negativeOnHover: {
+    "&:hover": {
+      backgroundColor: indigo[300]
+    }
+  },
+  veryDissatisfied: {
+    backgroundColor: indigo[900],
+  },
+  dissatisfied: {
+    backgroundColor: indigo[700],
+  },
+  sad: {
+    backgroundColor: indigo[500],
+  },
+
+  positiveOnHover: {
+    "&:hover": {
+      backgroundColor: blue[300]
+    }
+  },
+  happy: {
+    backgroundColor: blue[800],
+  },
+  satisfied: {
+    backgroundColor: blue[600],
+  },
+  verySatisfied: {
+    backgroundColor: blue[400],
+  },
 }));
 
-export default function FloatingActionButtons({clickHandler}) {
+export default function FloatingActionButtons({promptContainer, setMoodName}) {
   const classes = useStyles();
+  const veryDissatisfiedClassName = `${classes.fab} ${classes.veryDissatisfied} ${classes.negativeOnHover}`;
+  const dissatisfiedClassName = `${classes.fab} ${classes.dissatisfied} ${classes.negativeOnHover}`;
+  const sadClassName = `${classes.fab} ${classes.sad} ${classes.negativeOnHover}`;
+  const happyClassName = `${classes.fab} ${classes.happy} ${classes.positiveOnHover}`;
+  const satisfiedClassName = `${classes.fab} ${classes.satisfied} ${classes.positiveOnHover}`;
+  const verySatisfiedClassName = `${classes.fab} ${classes.verySatisfied} ${classes.positiveOnHover}`;
+
   return (
     <div>
-      <Fab color="secondary" size="small" className={classes.fab} onClick={() => clickHandler('veryDissatisfied')}>
+      {promptContainer}
+      <Fab color="primary" size="small" className={veryDissatisfiedClassName} onClick={() => setMoodName('Very Dissatisfied')}>
         <SentimentVeryDissatisfied />
       </Fab>
-      <Fab color="secondary" size="small" className={classes.fab} onClick={() => clickHandler('dissatisfied')}>
+      <Fab color="primary" size="small" className={dissatisfiedClassName} onClick={() => setMoodName('Dissatisfied')}>
         <MoodBad />
       </Fab>
-      <Fab color="secondary" size="small" className={classes.fab} onClick={() => clickHandler('sad')}>
+      <Fab color="primary" size="small" className={sadClassName} onClick={() => setMoodName('Sad')}>
         <SentimentDissatisfied />
       </Fab>
-      <Fab color="secondary" size="small" className={classes.fab} onClick={() => clickHandler('happy')}>
+      <Fab color="primary" size="small" className={happyClassName} onClick={() => setMoodName('Happy')}>
         <SentimentSatisfied />
       </Fab>
-      <Fab color="secondary" size="small" className={classes.fab} onClick={() => clickHandler('satisfied')}>
+      <Fab color="primary" size="small" className={satisfiedClassName} onClick={() => setMoodName('Satisfied')}>
         <Mood />
       </Fab>
-      <Fab color="secondary" size="small" className={classes.fab} onClick={() => clickHandler('verySatisfied')}>
+      <Fab color="primary" size="small" className={verySatisfiedClassName} onClick={() => setMoodName('Very Satisfied')}>
         <SentimentVerySatisfied />
       </Fab>
     </div>

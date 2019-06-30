@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
+import classes from '../assets/stylesheets/MaterialCard.css';
+import Typography from '@material-ui/core/Typography';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,59 +10,128 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+import Button from '@material-ui/core/Button';
 import EmotionIconButtons from './EmotionIconButtons';
 import CauseContainer from '../components/CauseContainer';
+import NoteContainer from '../components/NoteContainer';
 
-const useStyles = makeStyles(theme => ({
-  card: {
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: green[500],
-  },
-}));
+class MaterialCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      moodName: '',
+      causeArray: [],
+      note: ''
+    };
+  }
 
-export default function RecipeReviewCard({clickHandler}) {
-  const classes = useStyles();
+  setMoodName = (moodName) => {
+    console.log(moodName);
+    this.setState({moodName});
+    this.props.handleNext();
+  }
 
-  return (
-    <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar}>
-            VK
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="Settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Mood Tracker"
-        subheader={new Date().toDateString()}
-      />
-      
-      <CardContent>
-        <EmotionIconButtons clickHandler={clickHandler} />
-        <hr />
-        <CauseContainer />
-      </CardContent>
-    </Card>
-  );
+  setCauseArray = (causeArray) => {
+    console.log(causeArray);
+    this.setState({causeArray});
+    // this.props.handleNext();
+  }
+
+  setNote = (note) => {
+    console.log(note);
+    this.setState({note});
+  }
+
+  submitMoodEntry = () => {
+    this.props.moodEntryHandler(
+      this.state.moodName,
+      this.state.causeArray,
+      this.state.note
+    );
+    this.props.handleNext();
+  }
+
+  render() {
+    let {promptText, activeStep, handleBack, handleNext, steps} = this.props;
+
+    let inputContainer;
+    let promptContainer;
+    switch(activeStep) {
+      case 0:          
+        promptContainer = <Typography className={classes.instructions}>{promptText}</Typography>
+        inputContainer = <EmotionIconButtons
+                            promptContainer = {promptContainer}
+                            setMoodName = {this.setMoodName}
+                          />;
+        break;
+      case 1:
+        promptContainer = <div>
+          <Typography className={classes.instructions}>{this.state.moodName}</Typography>
+          <Typography className={classes.instructions}>{promptText}</Typography>
+        </div>
+        
+        inputContainer = <CauseContainer
+                            promptContainer = {promptContainer}
+                            setCauseArray = {this.setCauseArray}
+                          />;
+        break;
+      case 2:
+        inputContainer = <NoteContainer
+                            promptContainer = {promptText}
+                            selectedMood = {this.state.moodName}
+                            selectedCauses = {this.state.causeArray}
+                            setNote = {this.setNote}
+                          />;
+        break;
+      default:
+        // This should never show
+        inputContainer = <p>Invalid step</p>
+        break;
+    }
+
+    return (
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="initials" className={classes.avatar}>
+              VK
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="Settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title="Mood Tracker"
+          subheader={new Date().toDateString()}
+        />
+        <CardContent>
+          {inputContainer}
+
+          {activeStep > 0 ? (
+            <div>
+              <hr />
+              
+              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                Back
+              </Button>
+ 
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={activeStep === steps.length - 1 ? () => this.submitMoodEntry() : handleNext}
+                className={classes.button}
+              >
+                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              </Button>
+            </div>
+           ) : null
+          }
+
+        </CardContent>
+      </Card>
+    );
+  }
 }
+
+export default MaterialCard;
