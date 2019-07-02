@@ -43,7 +43,6 @@ class App extends React.Component {
 
         this.sortByDatesDesc(entries);
         this.setState({ moodEntries: entries });
-        localStorage.setItem('moodEntries', entries);
       })
       .catch((error) => {
         console.log(error);

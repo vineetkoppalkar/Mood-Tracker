@@ -59,22 +59,22 @@ export default function FloatingActionButtons({promptContainer, setMoodName}) {
   return (
     <div>
       {promptContainer}
-      <Fab color="primary" size="small" className={veryDissatisfiedClassName} onClick={() => setMoodName('Very Dissatisfied')}>
+      <Fab color="primary" size="small" className={veryDissatisfiedClassName} aria-label="VeryDissatisfied" onClick={() => setMoodName('Very Dissatisfied')}>
         <SentimentVeryDissatisfied />
       </Fab>
-      <Fab color="primary" size="small" className={dissatisfiedClassName} onClick={() => setMoodName('Dissatisfied')}>
+      <Fab color="primary" size="small" className={dissatisfiedClassName} aria-label="Dissatisfied" onClick={() => setMoodName('Dissatisfied')}>
         <MoodBad />
       </Fab>
-      <Fab color="primary" size="small" className={sadClassName} onClick={() => setMoodName('Sad')}>
+      <Fab color="primary" size="small" className={sadClassName} aria-label="Sad" onClick={() => setMoodName('Sad')}>
         <SentimentDissatisfied />
       </Fab>
-      <Fab color="primary" size="small" className={happyClassName} onClick={() => setMoodName('Happy')}>
+      <Fab color="primary" size="small" className={happyClassName} aria-label="Happy" onClick={() => setMoodName('Happy')}>
         <SentimentSatisfied />
       </Fab>
-      <Fab color="primary" size="small" className={satisfiedClassName} onClick={() => setMoodName('Satisfied')}>
+      <Fab color="primary" size="small" className={satisfiedClassName} aria-label="Satisfied" onClick={() => setMoodName('Satisfied')}>
         <Mood />
       </Fab>
-      <Fab color="primary" size="small" className={verySatisfiedClassName} onClick={() => setMoodName('Very Satisfied')}>
+      <Fab color="primary" size="small" className={verySatisfiedClassName} aria-label="VerySatisfied" onClick={() => setMoodName('Very Satisfied')}>
         <SentimentVerySatisfied />
       </Fab>
     </div>

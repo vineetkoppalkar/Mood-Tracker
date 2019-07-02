@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from '../assets/stylesheets/MaterialCard.css';
+import '../assets/stylesheets/MaterialCard.css';
 import Typography from '@material-ui/core/Typography';
 
 import Card from '@material-ui/core/Card';
@@ -56,7 +56,7 @@ class MaterialCard extends React.Component {
     const selectedMoodTextInfo = `Feeling ${this.state.moodName.toLowerCase()}`;
     switch(activeStep) {
       case 0:          
-        promptContainer = <Typography className={classes.instructions + " mb-2"}>{promptText}</Typography>
+        promptContainer = <Typography className={"instructions mb-2"}>{promptText}</Typography>
         inputContainer = <EmotionIconButtons
                             promptContainer = {promptContainer}
                             setMoodName = {this.setMoodName}
@@ -64,8 +64,8 @@ class MaterialCard extends React.Component {
         break;
       case 1:        
         promptContainer = <div>
-          <Typography className={classes.instructions}>{selectedMoodTextInfo}</Typography>
-          <Typography className={classes.instructions}>{promptText}</Typography>
+          <Typography className="instructions">{selectedMoodTextInfo}</Typography>
+          <Typography className="instructions">{promptText}</Typography>
         </div>
         
         inputContainer = <CauseContainer
@@ -75,7 +75,7 @@ class MaterialCard extends React.Component {
         break;
       case 2:
         promptContainer = <div>
-          <Typography className={classes.instructions}>{selectedMoodTextInfo} because of</Typography>
+          <Typography className="instructions">{selectedMoodTextInfo} because of</Typography>
           <CauseIconList selectedCauses={this.state.causeArray} />
         </div>
 
@@ -93,10 +93,10 @@ class MaterialCard extends React.Component {
     }
 
     return (
-      <Card className={classes.card}>
+      <Card className="card">
         <CardHeader
           avatar={
-            <Avatar aria-label="initials" className={classes.avatar}>
+            <Avatar aria-label="initials" className="avatar">
               VK
             </Avatar>
           }
@@ -115,7 +115,7 @@ class MaterialCard extends React.Component {
             <div>
               <hr />
               
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+              <Button disabled={activeStep === 0} onClick={handleBack} className="button">
                 Back
               </Button>
  
@@ -123,7 +123,7 @@ class MaterialCard extends React.Component {
                 variant="contained"
                 color="primary"
                 onClick={activeStep === steps.length - 1 ? () => this.submitMoodEntry() : handleNext}
-                className={classes.button}
+                className="button"
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </Button>
