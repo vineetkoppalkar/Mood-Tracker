@@ -1,12 +1,12 @@
-
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import HorizontalStepper from './components/HorizontalStepper';
-import { MyResponsivePie } from './components/PieChart';
 import SimpleTable from './components/SimpleTable';
+import { MyResponsivePie } from './components/PieChart';
+import { causeObjects } from './components/CauseConstants';
 
 import firebase from './firebase';
 
@@ -18,14 +18,14 @@ class App extends React.Component {
     this.state = {
       moodEntries: [],
     }
-  }
+  };
 
   sortByDatesDesc = (array) => {
     array.sort((a, b) => {
       return new Date(b.timestamp) - new Date(a.timestamp);
     });
     return array;
-  }
+  };
   
   retrieveMoodEntries = () => {
     let entries = [];
@@ -55,7 +55,7 @@ class App extends React.Component {
     if (!navigator.onLine) {
       this.setState({ moodEntries: localStorage.getItem('moodEntries') });
     }
-  }
+  };
 
   moodEntryHandler = (selectedMood, causeArray, note) => {
     let selectedCauseIds = [];
@@ -83,7 +83,54 @@ class App extends React.Component {
     .catch((error) => {
       console.error("Error adding document: ", error);
     });
-  }
+  };
+
+  getPieChartMoodNameData = () => {
+    let pieChartData = [];
+    this.state.moodEntries.forEach((entry) => {
+      let isExisitingLabel = false;
+      pieChartData.forEach((data) => {
+        if (data.id === entry.moodName) {
+          isExisitingLabel = true;
+          ++data.value;
+        }
+      });
+      if (!isExisitingLabel) {
+        let newData = {
+          id: entry.moodName,
+          label: entry.moodName,
+          value: 1
+        };
+        pieChartData.push(newData);
+      }
+    });
+    return pieChartData;
+  };
+
+  getPieChartMoodCauseData = () => {
+    let pieChartData = [];
+    this.state.moodEntries.forEach((entry) => {
+      entry.causeArray.forEach((causeId) => {
+        let cause = causeObjects[causeId].name;
+        let isExisitingLabel = false;
+        pieChartData.forEach((data) => {
+          if (data.id === cause) {
+            isExisitingLabel = true;
+            ++data.value;
+          }
+        });
+        if (!isExisitingLabel) {
+          let newData = {
+            id: cause,
+            label: cause,
+            value: 1
+          };
+          pieChartData.push(newData);
+        }
+      });
+    });
+    return pieChartData;
+  };
 
   render() {
     window.appState = this.state;
@@ -97,14 +144,17 @@ class App extends React.Component {
           </Row>
           <br />
           <Row style={{height: "500px"}}>
-            <Col lg={{span: 8, offset: 2}}>
-              <SimpleTable moodEntries={this.state.moodEntries} />
+            <Col lg={{span: 6}}>
+              <MyResponsivePie data={this.getPieChartMoodNameData()} />
+            </Col>
+            <Col lg={{span: 6}}>
+              <MyResponsivePie data={this.getPieChartMoodCauseData()} />
             </Col>
           </Row>
           <br />
           <Row style={{height: "500px"}}>
-            <Col lg={{span: 6, offset: 3}}>
-              <MyResponsivePie />
+            <Col lg={{span: 8, offset: 2}}>
+              <SimpleTable moodEntries={this.state.moodEntries} />
             </Col>
           </Row>
         </Container>
