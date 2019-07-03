@@ -111,11 +111,7 @@ class MaterialCard extends React.Component {
           title="Mood Tracker"
           subheader={new Date().toDateString()}
         />
-        {/* <CardMedia
-          image={require("../assets/images/material_ui_logo.png")}
-          title="Material UI Logo"
-        /> */}
-        <img src={material_ui_logo}/>
+        {/* <img src={material_ui_logo}/> */}
         <CardContent>
           {inputContainer}
 

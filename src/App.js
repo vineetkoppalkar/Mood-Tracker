@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import HorizontalStepper from './components/HorizontalStepper';
-import MaterialCard from './components/MaterialCard';
+import { MyResponsivePie } from './components/PieChart';
 import SimpleTable from './components/SimpleTable';
 
 import firebase from './firebase';
@@ -96,9 +96,15 @@ class App extends React.Component {
             </Col>
           </Row>
           <br />
-          <Row>
-            <Col lg={{span: 8, offset: 2}} >
+          <Row style={{height: "500px"}}>
+            <Col lg={{span: 8, offset: 2}}>
               <SimpleTable moodEntries={this.state.moodEntries} />
+            </Col>
+          </Row>
+          <br />
+          <Row style={{height: "500px"}}>
+            <Col lg={{span: 6, offset: 3}}>
+              <MyResponsivePie />
             </Col>
           </Row>
         </Container>
