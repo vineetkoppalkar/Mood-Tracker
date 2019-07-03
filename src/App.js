@@ -7,6 +7,7 @@ import HorizontalStepper from './components/HorizontalStepper';
 import SimpleTable from './components/SimpleTable';
 import { MyResponsivePie } from './components/PieChart';
 import { causeObjects } from './components/CauseConstants';
+import { MyResponsiveCalendar } from './components/Calendar';
 
 import firebase from './firebase';
 
@@ -132,6 +133,31 @@ class App extends React.Component {
     return pieChartData;
   };
 
+  formatDate = (date) => {
+    let d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
+
+    if (month.length < 2) { month = '0' + month };
+    if (day.length < 2) { day = '0' + day };
+
+    return [year, month, day].join('-');
+  }
+
+  getCalendarData = () => {
+    let calendarData = [];
+    this.state.moodEntries.forEach((entry) => {
+      let dayValue = this.formatDate(entry.timestamp);
+      let data = {
+        day: dayValue,
+        value: 1
+      };
+      calendarData.push(data);
+    });
+    return calendarData;
+  }
+
   render() {
     window.appState = this.state;
     return (
@@ -149,6 +175,11 @@ class App extends React.Component {
             </Col>
             <Col lg={{span: 6}}>
               <MyResponsivePie data={this.getPieChartMoodCauseData()} />
+            </Col>
+          </Row>
+          <Row style={{height: "250px"}}>
+            <Col lg={{span: 10, offset: 1}}>
+              <MyResponsiveCalendar data={this.getCalendarData()} />
             </Col>
           </Row>
           <br />
