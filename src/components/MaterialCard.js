@@ -1,10 +1,13 @@
 import React from 'react';
 
+import material_ui_logo from '../assets/images/material_ui_logo.png';
+
 import '../assets/stylesheets/MaterialCard.css';
 import Typography from '@material-ui/core/Typography';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -108,6 +111,11 @@ class MaterialCard extends React.Component {
           title="Mood Tracker"
           subheader={new Date().toDateString()}
         />
+        {/* <CardMedia
+          image={require("../assets/images/material_ui_logo.png")}
+          title="Material UI Logo"
+        /> */}
+        <img src={material_ui_logo}/>
         <CardContent>
           {inputContainer}
 
