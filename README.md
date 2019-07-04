@@ -1,3 +1,15 @@
+
+# Mood Tracker
+https://moodtracker-3c9c8.firebaseapp.com/
+
+This is a web app that is used to track how you feel and why you feel that way. The data collected is illustrated through graphs.
+
+## Technologies Involved
+- React
+- Firestore
+- Workbox
+- Material-UI
+___
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
